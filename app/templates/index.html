@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TL SR Review Tool</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>TL SR Review Tool</h1>
+    <p>Create SR daily updates fast and clean</p>
+  </header>
+
+  <main class="container">
+    <section class="panel" id="summary-section">
+      <h2>📝 Summary</h2>
+      <div class="controls">
+        <input type="date" id="summary-date">
+        <select id="summary-fixed"></select>
+        <input type="text" id="summary-custom" placeholder="Custom note (optional)">
+        <button class="btn btn-primary" id="summary-add">Add Entry</button>
+        <button class="btn btn-danger" id="summary-clear">Clear</button>
+      </div>
+      <ul id="summary-list" class="entry-list"></ul>
+    </section>
+
+    <section class="panel" id="next-section">
+      <h2>📌 Next Plan</h2>
+      <div class="controls">
+        <input type="date" id="next-date">
+        <select id="next-fixed"></select>
+        <input type="text" id="next-custom" placeholder="Custom note (optional)">
+        <button class="btn btn-primary" id="next-add">Add Entry</button>
+        <button class="btn btn-danger" id="next-clear">Clear</button>
+      </div>
+      <ul id="next-list" class="entry-list"></ul>
+    </section>
+
+    <section class="panel" id="preview-section">
+      <h2>📋 Preview & Copy</h2>
+      <textarea id="preview" readonly></textarea>
+      <div class="actions">
+        <button class="btn btn-success" id="copy-btn">Copy to Clipboard</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
