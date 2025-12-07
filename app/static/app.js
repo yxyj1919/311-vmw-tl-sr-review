@@ -1,14 +1,23 @@
 const SUMMARY_OPTIONS=[
-  "Customer opened this SR regarding",
-  "TSE requested additional details from Customer",
-  "TSE held a Zoom call with Customer to scope the issue",
-  "Customer provided the required data for troubleshooting",
-  "TSE delivered the log analysis results",
-  "TSE reached out to Customer to confirm status"
+  "[CX]-Customer opened this SR regarding",
+  "[GS]-TSE contact customer to get more details",
+  "[GS]-TSE held a Zoom call with Customer to scope the issue",
+  "[GS]-TSE requested vm-support for further investigation",
+  "[GS]-TSE requested additional details from Customer",
+  "[CX]-Customer provided the required data for troubleshooting",
+  "[CX]-Customer didn't join the Zoom meeting.",
+  "[GS]-TSE delivered the log analysis results",
+  "[GS]-TSE reached out to Customer to confirm the latest status",
+  "[GS]-TSE reached out to R&D to confirm the latest status",
+  "[RD]-A PR was created.",
+  "[RD]-RD provided GS with an update"
 ];
 const NEXT_OPTIONS=[
-  "Awaiting Customer to provide the requested information",
-  "TSE will contact Customer to confirm the current status"
+  "[CX]-Awaiting Customer to provide the latest status.",
+  "[RD]-Awaiting RD to provide the update",
+  "[GS]-TSE will contact Customer to confirm the current status.",
+  "[GS]-TSE will contact RD to push the PR forward.",
+  "[GS]-TSE will proceed with archive this SR."
 ];
 
 const summaryEntries=[];
@@ -141,6 +150,8 @@ function addEntry(section){
   if(section==="summary") selectedSummaryId=e.id; else selectedNextId=e.id;
   renderList(section);
   renderPreview();
+  const customInput=document.getElementById(section==="summary"?"summary-custom":"next-custom");
+  if(customInput) customInput.value="";
 }
 
 function clearSection(section){
