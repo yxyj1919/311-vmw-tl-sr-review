@@ -18,6 +18,7 @@
   </header>
 
   <main class="container">
+    <div class="notice"><div class="notice-scroll">NOTICE: Do NOT save any sensitive information (eg. Logs) here. You can copy and paste the output to notepad and perfect it.</div></div>
     <section class="panel" id="summary-section">
       <h2>📝 Summary</h2>
       <div class="controls">
@@ -51,6 +52,17 @@
         <button class="btn btn-danger" id="next-clear">Clear</button>
       </div>
       <ul id="next-list" class="entry-list"></ul>
+    </section>
+
+    <section class="panel" id="tlc-section">
+      <h2>💬 TL Comment</h2>
+      <div class="controls">
+        <input type="date" id="tlc-date">
+        <input type="text" id="tlc-custom" placeholder="Comment">
+        <button class="btn btn-primary" id="tlc-add">Add Entry</button>
+        <button class="btn btn-danger" id="tlc-clear">Clear</button>
+      </div>
+      <ul id="tlc-list" class="entry-list"></ul>
     </section>
 
     <section class="panel" id="load-section">

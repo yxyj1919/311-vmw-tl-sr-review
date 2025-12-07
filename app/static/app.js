@@ -25,8 +25,10 @@ const NEXT_OPTIONS=[
 
 const summaryEntries=[];
 const nextEntries=[];
+const tlcEntries=[];
 let selectedSummaryId=null;
 let selectedNextId=null;
+let selectedTlcId=null;
 
 function todayISO(){
   const d=new Date();
@@ -59,12 +61,18 @@ function formatLine(e){
 }
 
 function renderList(section){
-  const list=section==="summary"?document.getElementById("summary-list"):document.getElementById("next-list");
-  const arr=section==="summary"?summaryEntries:nextEntries;
+  const list=
+    section==="summary"?document.getElementById("summary-list"):
+    section==="next"?document.getElementById("next-list"):
+    document.getElementById("tlc-list");
+  const arr=
+    section==="summary"?summaryEntries:
+    section==="next"?nextEntries:
+    tlcEntries;
   list.innerHTML="";
   arr.forEach((e, idx)=>{
     const li=document.createElement("li");
-    const selectedId=section==="summary"?selectedSummaryId:selectedNextId;
+    const selectedId=section==="summary"?selectedSummaryId:section==="next"?selectedNextId:selectedTlcId;
     li.className=`entry-item${selectedId===e.id?" selected":""}`;
     const txt=document.createElement("div");
     txt.className="entry-text";
@@ -87,11 +95,12 @@ function renderList(section){
     const del=document.createElement("button");
     del.textContent="Delete";
     del.addEventListener("click",()=>{
-      const target=section==="summary"?summaryEntries:nextEntries;
+      const target=section==="summary"?summaryEntries:section==="next"?nextEntries:tlcEntries;
       const i=target.findIndex(x=>x.id===e.id);
       if(i>=0){target.splice(i,1);} 
       if(section==="summary" && selectedSummaryId===e.id) selectedSummaryId=null;
       if(section==="next" && selectedNextId===e.id) selectedNextId=null;
+      if(section==="tlc" && selectedTlcId===e.id) selectedTlcId=null;
       renderList(section);
       renderPreview();
     });
@@ -101,7 +110,9 @@ function renderList(section){
     li.addEventListener("click",(ev)=>{
       const t=ev.target && ev.target.tagName ? ev.target.tagName.toLowerCase() : "";
       if(t==="button") return;
-      if(section==="summary") selectedSummaryId=e.id; else selectedNextId=e.id;
+      if(section==="summary") selectedSummaryId=e.id; 
+      else if(section==="next") selectedNextId=e.id; 
+      else selectedTlcId=e.id;
       renderList(section);
     });
     list.appendChild(li);
@@ -109,7 +120,7 @@ function renderList(section){
 }
 
 function moveEntry(section,id,delta){
-  const target=section==="summary"?summaryEntries:nextEntries;
+  const target=section==="summary"?summaryEntries:section==="next"?nextEntries:tlcEntries;
   const i=target.findIndex(x=>x.id===id);
   if(i<0) return;
   const j=i+delta;
@@ -124,12 +135,18 @@ function moveEntry(section,id,delta){
 function renderPreview(){
   const sLines=summaryEntries.map(formatLine).join("\n");
   const nLines=nextEntries.map(formatLine).join("\n");
+  const tLines=tlcEntries.map(formatLine).join("\n");
   const parts=[];
   parts.push("Summary:");
   if(sLines) parts.push(sLines);
   parts.push("");
   parts.push("Next Plan:");
   if(nLines) parts.push(nLines);
+  if(tLines){
+    parts.push("");
+    parts.push("TL Comment:");
+    parts.push(tLines);
+  }
   const text=parts.join("\n").trim();
   document.getElementById("preview").value=text;
 }
@@ -157,9 +174,33 @@ function addEntry(section){
   if(customInput) customInput.value="";
 }
 
+function addTlcEntry(){
+  const date=document.getElementById("tlc-date").value;
+  const custom=document.getElementById("tlc-custom").value;
+  if(!date||!custom.trim()) return;
+  const e=makeEntry("tlc",date,"TL Comment:",custom);
+  const selectedId=selectedTlcId;
+  if(selectedId){
+    const i=tlcEntries.findIndex(x=>x.id===selectedId);
+    const insertIndex=i>=0?i+1:tlcEntries.length;
+    tlcEntries.splice(insertIndex,0,e);
+  }else{
+    tlcEntries.push(e);
+  }
+  selectedTlcId=e.id;
+  renderList("tlc");
+  renderPreview();
+  const customInput=document.getElementById("tlc-custom");
+  if(customInput) customInput.value="";
+}
+
 function clearSection(section){
-  if(section==="summary") summaryEntries.length=0; else nextEntries.length=0;
-  if(section==="summary") selectedSummaryId=null; else selectedNextId=null;
+  if(section==="summary") summaryEntries.length=0; 
+  else if(section==="next") nextEntries.length=0; 
+  else tlcEntries.length=0;
+  if(section==="summary") selectedSummaryId=null; 
+  else if(section==="next") selectedNextId=null; 
+  else selectedTlcId=null;
   renderList(section);
   renderPreview();
 }
@@ -179,14 +220,20 @@ function copyPreview(){
 document.addEventListener("DOMContentLoaded",()=>{
   const sd=document.getElementById("summary-date");
   const nd=document.getElementById("next-date");
+  const td=document.getElementById("tlc-date");
   sd.value=todayISO();
   nd.value=todayISO();
+  if(td) td.value=todayISO();
   populateSelect(document.getElementById("summary-fixed"),SUMMARY_OPTIONS);
   populateSelect(document.getElementById("next-fixed"),NEXT_OPTIONS);
   document.getElementById("summary-add").addEventListener("click",()=>addEntry("summary"));
   document.getElementById("next-add").addEventListener("click",()=>addEntry("next"));
+  const tlcAdd=document.getElementById("tlc-add");
+  if(tlcAdd) tlcAdd.addEventListener("click",addTlcEntry);
   document.getElementById("summary-clear").addEventListener("click",()=>clearSection("summary"));
   document.getElementById("next-clear").addEventListener("click",()=>clearSection("next"));
+  const tlcClear=document.getElementById("tlc-clear");
+  if(tlcClear) tlcClear.addEventListener("click",()=>clearSection("tlc"));
   document.getElementById("copy-btn").addEventListener("click",copyPreview);
   const saveBtn=document.getElementById("save-btn");
   if(saveBtn){
