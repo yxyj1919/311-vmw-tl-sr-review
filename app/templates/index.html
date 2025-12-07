@@ -8,7 +8,12 @@
 </head>
 <body>
   <header class="header">
-    <h1>TL SR Review Tool</h1>
+    <div class="header-top">
+      <h1>TL SR Review Tool <span class="version-badge">v1.0.0</span></h1>
+      <div class="header-meta">
+        <div class="meta-line">Chang WANG | <a href="mailto:chang.wang@broadcom.com">chang.wang@broadcom.com</a></div>
+      </div>
+    </div>
     <p>Create SR daily updates fast and clean</p>
   </header>
 
@@ -27,6 +32,10 @@
     <section class="panel" id="preview-section">
       <h2>📋 Preview & Copy</h2>
       <textarea id="preview" readonly></textarea>
+      <div class="controls">
+        <input type="text" id="sr-number" placeholder="SR Number">
+        <button class="btn btn-primary" id="save-btn">Save</button>
+      </div>
       <div class="actions">
         <button class="btn btn-success" id="copy-btn">Copy to Clipboard</button>
       </div>
@@ -42,6 +51,15 @@
         <button class="btn btn-danger" id="next-clear">Clear</button>
       </div>
       <ul id="next-list" class="entry-list"></ul>
+    </section>
+
+    <section class="panel" id="load-section">
+      <h2>📂 Load Saved SR</h2>
+      <div class="controls">
+        <input type="text" id="load-sr" placeholder="SR Number">
+        <button class="btn btn-primary" id="load-btn">Load</button>
+      </div>
+      <textarea id="loaded-content" readonly placeholder="Loaded content will appear here"></textarea>
     </section>
   </main>
 

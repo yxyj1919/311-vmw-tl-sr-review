@@ -1,16 +1,19 @@
 const SUMMARY_OPTIONS=[
-  "[CX]-Customer opened this SR regarding",
-  "[GS]-TSE contact customer to get more details",
-  "[GS]-TSE held a Zoom call with Customer to scope the issue",
-  "[GS]-TSE requested vm-support for further investigation",
-  "[GS]-TSE requested additional details from Customer",
-  "[CX]-Customer provided the required data for troubleshooting",
-  "[CX]-Customer didn't join the Zoom meeting.",
-  "[GS]-TSE delivered the log analysis results",
-  "[GS]-TSE reached out to Customer to confirm the latest status",
-  "[GS]-TSE reached out to R&D to confirm the latest status",
-  "[RD]-A PR was created.",
-  "[RD]-RD provided GS with an update"
+  "[CX] Customer opened the SR regarding",
+  "[GS] TSE contacted the customer to scope the SR.",
+  "[GS] TSE held a Zoom session with the customer for troubleshooting.",
+  "[GS] TSE requested logs/data for further investigation.",
+  "[GS] TSE requested additional information from the customer.",
+  "[CX] Customer provided the required data for troubleshooting.",
+  "[CX] Customer did not join the scheduled Zoom session.",
+  "[GS] TSE delivered the log analysis findings to the customer.",
+  "[GS] TSE delivered the action plan to the customer.",
+  "[GS] TSE followed up with the customer to confirm the latest status.",
+  "[GS] TSE consulted with R&D for further clarification.",
+  "[RD] A PR was created for this issue.",
+  "[RD] R&D provided an update to GS.",
+  "[TL] TL took the SR owner.",
+  "[TL] An ER was created to push this SR forward."
 ];
 const NEXT_OPTIONS=[
   "[CX]-Awaiting Customer to provide the latest status.",
@@ -185,5 +188,46 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.getElementById("summary-clear").addEventListener("click",()=>clearSection("summary"));
   document.getElementById("next-clear").addEventListener("click",()=>clearSection("next"));
   document.getElementById("copy-btn").addEventListener("click",copyPreview);
+  const saveBtn=document.getElementById("save-btn");
+  if(saveBtn){
+    saveBtn.addEventListener("click",saveSR);
+  }
+  const loadBtn=document.getElementById("load-btn");
+  if(loadBtn){
+    loadBtn.addEventListener("click",loadSR);
+  }
   renderPreview();
 });
+
+async function saveSR(){
+  const sr=document.getElementById("sr-number").value.trim();
+  const content=document.getElementById("preview").value;
+  if(!sr) return;
+  const res=await fetch("/save_sr",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({srNumber:sr,content})
+  });
+  if(res.ok){
+    const data=await res.json();
+    alert(data.message||"Saved");
+  }
+}
+
+async function loadSR(){
+  const sr=document.getElementById("load-sr").value.trim();
+  if(!sr) return;
+  const res=await fetch(`/load_sr?sr=${encodeURIComponent(sr)}`);
+  if(res.ok){
+    const data=await res.json();
+    const txt=data.content||"";
+    const area=document.getElementById("loaded-content");
+    if(area) area.value=txt;
+    const prev=document.getElementById("preview");
+    if(prev) prev.value=txt;
+  }else{
+    const area=document.getElementById("loaded-content");
+    if(area) area.value="";
+    alert("Not found");
+  }
+}
