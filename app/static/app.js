@@ -144,7 +144,7 @@ function renderPreview(){
   if(nLines) parts.push(nLines);
   if(tLines){
     parts.push("");
-    parts.push("TL Comment:");
+    parts.push("TL Evaluation:");
     parts.push(tLines);
   }
   const text=parts.join("\n").trim();
@@ -178,7 +178,7 @@ function addTlcEntry(){
   const date=document.getElementById("tlc-date").value;
   const custom=document.getElementById("tlc-custom").value;
   if(!date||!custom.trim()) return;
-  const e=makeEntry("tlc",date,"TL Comment:",custom);
+  const e=makeEntry("tlc",date,"TL Evaluation:",custom);
   const selectedId=selectedTlcId;
   if(selectedId){
     const i=tlcEntries.findIndex(x=>x.id===selectedId);
