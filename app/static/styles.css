@@ -15,6 +15,8 @@ html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe 
 .header h1{margin:0;font-size:22px;letter-spacing:.2px}
 .header p{margin:6px 0 0;opacity:.85}
 .container{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1200px;padding:20px;margin:0 auto}
+.container #tlc-section{grid-column:auto}
+.container #preview-section{grid-column:2;grid-row:span 2}
 .panel{background:var(--card);border-radius:12px;padding:16px 16px;box-shadow:0 6px 16px rgba(0,0,0,.06);border:1px solid var(--border)}
 .panel h2{margin:0 0 12px;font-size:18px}
 .controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
@@ -31,6 +33,6 @@ html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe 
 .entry-text{white-space:pre-wrap;word-break:break-word;padding-right:8px}
 .entry-actions{display:flex;gap:8px}
 .entry-actions button{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#f3f4f6;cursor:pointer}
-#preview-section textarea{width:100%;min-height:200px;padding:12px;border:1px solid var(--border);border-radius:10px;resize:vertical;background:#fbfbfb;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+#preview-section textarea{width:100%;min-height:360px;padding:12px;border:1px solid var(--border);border-radius:10px;resize:vertical;background:#fbfbfb;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 .actions{margin-top:10px}
 @media (max-width:1000px){.container{grid-template-columns:1fr}}

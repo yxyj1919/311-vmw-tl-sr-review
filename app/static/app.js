@@ -120,6 +120,7 @@ function renderList(section){
     });
     list.appendChild(li);
   });
+  if(section==="tlc") syncPreviewHeight();
 }
 
 function moveEntry(section,id,delta){
@@ -150,6 +151,7 @@ function renderPreview(){
   if(nLines) parts.push(nLines);
   const text=parts.join("\n").trim();
   document.getElementById("preview").value=text;
+  syncPreviewHeight();
 }
 
 function addEntry(section){
@@ -245,6 +247,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     loadBtn.addEventListener("click",loadSR);
   }
   renderPreview();
+  syncPreviewHeight();
+  window.addEventListener("resize",syncPreviewHeight);
 });
 
 async function saveSR(){
@@ -272,10 +276,20 @@ async function loadSR(){
     const area=document.getElementById("loaded-content");
     if(area) area.value=txt;
     const prev=document.getElementById("preview");
-    if(prev) prev.value=txt;
+    if(prev) { prev.value=txt; }
   }else{
     const area=document.getElementById("loaded-content");
     if(area) area.value="";
     alert("Not found");
   }
 }
+
+function syncPreviewHeight(){
+  const tl = document.getElementById("tlc-section");
+  const panel = document.getElementById("preview-section");
+  if(!tl||!panel) return;
+  const tlh = tl.offsetHeight;
+  panel.style.minHeight = `${tlh}px`;
+}
+
+// removed auto-resize; preview now spans two grid rows

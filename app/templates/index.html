@@ -18,7 +18,7 @@
   </header>
 
   <main class="container">
-    <div class="notice"><div class="notice-scroll">NOTICE: Do <span class="highlight">NOT</span> save any <span class="highlight">SENSITIVE INFORMATION</span> (eg. Logs) here. You can copy and paste the output to a notepad and perfect it with logs.</div></div>
+    <div class="notice"><div class="notice-scroll">NOTICE: Do <span class="highlight">NOT</span> save any <span class="highlight">SENSITIVE INFORMATION</span> (eg. Logs) here. You can copy and paste the output to a notepad and perfect it.</div></div>
     <section class="panel" id="summary-section">
       <h2>📝 Summary</h2>
       <div class="controls">
@@ -52,16 +52,7 @@
       </div>
       <ul id="tlc-list" class="entry-list"></ul>
     </section>
-
-    <section class="panel" id="load-section">
-      <h2>📂 Load Saved SR</h2>
-      <div class="controls">
-        <input type="text" id="load-sr" placeholder="SR Number">
-        <button class="btn btn-primary" id="load-btn">Load</button>
-      </div>
-      <textarea id="loaded-content" readonly placeholder="Loaded content will appear here"></textarea>
-    </section>
-
+ 
     <section class="panel" id="next-section">
       <h2>📌 Next Plan</h2>
       <div class="controls">
@@ -72,6 +63,15 @@
         <button class="btn btn-danger" id="next-clear">Clear</button>
       </div>
       <ul id="next-list" class="entry-list"></ul>
+    </section>
+ 
+    <section class="panel" id="load-section">
+      <h2>📂 Load Saved SR</h2>
+      <div class="controls">
+        <input type="text" id="load-sr" placeholder="SR Number">
+        <button class="btn btn-primary" id="load-btn">Load</button>
+      </div>
+      <textarea id="loaded-content" readonly placeholder="Loaded content will appear here"></textarea>
     </section>
   </main>
 
