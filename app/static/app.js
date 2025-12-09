@@ -57,6 +57,9 @@ function makeEntry(section,date,fixedText,custom){
 
 function formatLine(e){
   const c=(e.custom||"").trim();
+  if(e.section==="tlc"){
+    return c?`[${e.date}]- ${c}`:`[${e.date}]`;
+  }
   return c?`[${e.date}]- ${e.fixedText} ${c}`:`[${e.date}]- ${e.fixedText}`;
 }
 
@@ -140,13 +143,11 @@ function renderPreview(){
   parts.push("Summary:");
   if(sLines) parts.push(sLines);
   parts.push("");
+  parts.push("Evaluation: ");
+  if(tLines) parts.push(tLines);
+  parts.push("");
   parts.push("Next Plan:");
   if(nLines) parts.push(nLines);
-  if(tLines){
-    parts.push("");
-    parts.push("TL Evaluation:");
-    parts.push(tLines);
-  }
   const text=parts.join("\n").trim();
   document.getElementById("preview").value=text;
 }
